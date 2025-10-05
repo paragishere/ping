@@ -1,24 +1,40 @@
-import time
 import requests
 from datetime import datetime, timezone
 
-urls = [
+# List of URLs to keep alive
+URLS = [
     "https://anti-india-detection.onrender.com",
     "https://mca-econsult-prototype.onrender.com"
 ]
 
-print("🚀 Ping script started...")
+def ping(url, timeout=10):
+    """Send a GET request and return status info."""
+    try:
+        r = requests.get(url, timeout=timeout)
+        return True, r.status_code, r.elapsed.total_seconds()
+    except Exception as e:
+        return False, str(e), None
 
-# Har run me 1 minute ke liye chalega (10 sec interval, total 6 pings)
-for i in range(6):
-    now = datetime.now(timezone.utc).isoformat()
-    print(f"\n⏰ Tick: {now}")
+def main():
+    now = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    print(f"🕒 Ping run started at {now}\n")
 
-    for url in urls:
-        try:
-            r = requests.get(url, timeout=10)
-            print(f"[{url}] status={r.status_code} time={r.elapsed.total_seconds():.2f}s")
-        except Exception as e:
-            print(f"[{url}] error={e}")
+    success_count = 0
+    for url in URLS:
+        print(f"🌐 Checking: {url}")
+        ok, info, elapsed = ping(url)
 
-    time.sleep(10)  # 10 seconds wait
+        if ok:
+            print(f"✅ UP | Status: {info} | Time: {elapsed:.2f}s\n")
+            success_count += 1
+        else:
+            print(f"❌ DOWN | Error: {info}\n")
+
+    print("🔁 Summary:")
+    print(f"   {success_count}/{len(URLS)} sites responded successfully.\n")
+
+    end_time = datetime.now(timezone.utc).strftime("%Y-%m-%d %H:%M:%S UTC")
+    print(f"🏁 Ping run finished at {end_time}")
+
+if __name__ == "__main__":
+    main()
