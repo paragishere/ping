@@ -4,7 +4,8 @@ from datetime import datetime, timezone
 # List of URLs to keep alive
 URLS = [
     "https://anti-india-detection.onrender.com",
-    "https://mca-econsult-prototype.onrender.com"
+    "https://mca-econsult-prototype.onrender.com",
+    "https://testapp-wd1k.onrender.com"
 ]
 
 def ping(url, timeout=10):
