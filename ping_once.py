@@ -6,6 +6,7 @@ URLS = [
     "https://anti-india-detection.onrender.com",
     "https://mca-econsult-prototype.onrender.com",
     "https://testapp-wd1k.onrender.com"
+    "https://parag.qzz.io"
 ]
 
 def ping(url, timeout=10):
